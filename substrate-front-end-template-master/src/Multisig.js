@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Form, Input, Grid, Label, Icon } from "semantic-ui-react";
 import { TxButton } from "./substrate-lib/components";
-import { useSubstrate } from './substrate-lib';
+import { useSubstrate } from "./substrate-lib";
 
 export default function Main(props) {
   const [status, setStatus] = useState(null);
-  const [formState, setFormState] = useState({ addressTo: null, amount: 0,threshold:2,other_signatories:''});
+  const [formState, setFormState] = useState({
+    addressTo: null,
+    amount: 0,
+    threshold: 2,
+    other_signatories: "",
+  });
   const { accountPair } = props;
   const { api } = useSubstrate();
 
@@ -46,10 +51,11 @@ export default function Main(props) {
             onChange={onChange}
           />
         </Form.Field>
+        <Form.Field>Other signatories, semicolon separated </Form.Field>
         <Form.Field>
           <Input
             fluid
-            label="Other signatories, semicolon separated"
+            label="Other"
             type="text"
             state="other_signatories"
             onChange={onChange}
@@ -70,7 +76,7 @@ export default function Main(props) {
                 null,
                 api.tx.balances.transfer(addressTo, amount),
                 false,
-                10000000000,
+                1000000,
               ],
               paramFields: [true, true, { optional: true }, true, true, true],
             }}
